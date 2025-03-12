@@ -14,7 +14,7 @@ VALID_ENTITIES = ['datasets', 'samples', 'donors', 'files']
 def search_entities(entity_type):
     url = BASE_URL + f"param-search/{entity_type}"
     headers = {
-        "Authorization": "Bearer YOUR_ACCESS_TOKEN",  # Replace with your actual access token
+        "Authorization": f"Bearer {os.getenv('HUBMAP_ACCESS_TOKEN')}",  # Pull access token from environment variable
     }
     response = requests.get(url, headers=headers)
     response.raise_for_status()  # Ensure we handle any potential errors
