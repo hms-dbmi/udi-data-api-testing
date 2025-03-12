@@ -3,12 +3,13 @@
 import json
 import requests
 import pandas as pd
+import yaml
 
 # Load OpenAPI JSON
 openapi_url = "https://raw.githubusercontent.com/hubmapconsortium/search-api/master/search-api-spec.yaml"
 response = requests.get(openapi_url)
 if response.status_code == 200:
-    openapi_data = response.json()
+    openapi_data = yaml.safe_load(response.text)
 else:
     raise Exception("Failed to fetch OpenAPI JSON")
 
