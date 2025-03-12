@@ -7,12 +7,12 @@ import os
 # Base URL for the API
 BASE_URL = "https://search.api.hubmapconsortium.org/v3/"
 
-# List of entities based on the OpenAPI spec
-ENTITIES = ['Person', 'Antibody', 'DonorMetadata', 'SampleMetadata', 'File', 'Donor', 'Sample', 'Dataset', 'Publication']
+# List of valid entities based on the OpenAPI spec for the `param-search` endpoint
+VALID_ENTITIES = ['datasets', 'samples', 'donors', 'files']
 
 # Function to query the search API
 def search_entities(entity_type):
-    url = BASE_URL + "param-search/" + entity_type
+    url = BASE_URL + f"param-search/{entity_type}"
     headers = {
         "Authorization": "Bearer YOUR_ACCESS_TOKEN",  # Replace with your actual access token
     }
@@ -28,9 +28,9 @@ def save_to_csv(data, entity_type):
     df.to_csv(file_name, index=False)
     print(f"Data for {entity_type} saved to {file_name}")
 
-# Main function to download data for all entities
+# Main function to download data for all valid entities
 def download_all_data():
-    for entity in ENTITIES:
+    for entity in VALID_ENTITIES:
         print(f"Downloading data for {entity}...")
         try:
             data = search_entities(entity)
@@ -41,8 +41,8 @@ def download_all_data():
 # Function to determine relationships between entities
 def determine_relationships():
     # Example of detecting relationships between 'Dataset' and 'Donor'
-    dataset_data = search_entities('Dataset')
-    donor_data = search_entities('Donor')
+    dataset_data = search_entities('datasets')
+    donor_data = search_entities('donors')
     
     # Let's assume we are matching datasets to their associated donors based on `donor.hubmap_id`
     relationships = []
